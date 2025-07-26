@@ -1,0 +1,186 @@
+= Drone Control Project =
+
+Welcome to the '''Drone Control Project'''! This project builds a system where a Raspberry Pi controls a primary drone via a wired connection (simulated using TCP) and coordinates secondary drones over radio frequency (RF, simulated via TCP/UDP). We use a simulator (ArduPilot SITL) to test the control logic, so no physical drones are needed yet. This guide is designed for beginners and new contributors to jump in and start vibecoding, even if you're new to drones or coding!
+
+== Project Overview ==
+
+* '''Goal''': Develop software for a Raspberry Pi to control a primary drone (via MAVLink) and have that drone command secondary drones (via RF-like communication).
+* '''Current Stage''': Simulation using ArduPilot SITL, with the Pi sending commands to a virtual primary drone and simulating RF control for secondary drones.
+* '''Tools''':
+** Raspberry Pi: Runs the control software.
+** MacBook: Runs the simulator (ArduPilot SITL) and code editor (Cursor).
+** [https://cursor.sh Cursor]: Code editor for writing and debugging Python scripts.
+** Claude: Optional AI tool (via Anthropic API or platform) for code suggestions.
+* '''Languages''': Python for control logic, Bash for setup scripts.
+* '''Future Plans''': Transition to physical drones with a flight controller (e.g., Pixhawk) and RF modules (e.g., NRF24L01).
+
+We're excited to have you contribute, whether you're a beginner or pro! Let's build something cool together.
+
+== Prerequisites ==
+
+* '''Hardware''':
+** Raspberry Pi (e.g., Pi 4 or 3B+) with a microSD card (16GB+), power supply, and network connection (Wi-Fi or Ethernet).
+** MacBook running macOS (e.g., Ventura, Sonoma) for the simulator and coding.
+* '''Software''':
+** [https://www.raspberrypi.com/software/ Raspberry Pi Imager]: To install Raspberry Pi OS.
+** [https://cursor.sh Cursor]: Code editor for your MacBook.
+** [https://brew.sh Homebrew]: To manage dependencies on macOS.
+** Claude (optional): Access via Anthropic API or platform for code assistance.
+* '''Network''': The Raspberry Pi and MacBook must be on the same network (Wi-Fi or Ethernet).
+
+== Getting Started ==
+
+=== Step 1: Verify and Prepare the Raspberry Pi ===
+# '''Confirm Raspberry Pi OS''': Ensure your Pi runs Raspberry Pi OS (Lite for performance or Desktop for a GUI). If not installed, download [https://www.raspberrypi.com/software/ Raspberry Pi Imager] on your MacBook and flash Raspberry Pi OS Lite or Desktop to a microSD card.
+# '''Boot and Connect''': Insert the microSD card, power on the Pi, and connect it to the same network as your MacBook (Wi-Fi or Ethernet).
+# '''Find the Pi’s IP Address''': On the Pi (via monitor/keyboard or SSH if enabled):
+<pre>
+hostname -I
+</pre>
+Note the IP (e.g., 192.168.1.101) or use <code>raspberrypi.local</code> for SSH. SSH from your MacBook:
+<pre>
+ssh pi@raspberrypi.local
+# Default password: raspberry
+</pre>
+
+=== Step 2: Clone the Repository ===
+* Clone the project to your MacBook:
+<pre>
+git clone <repository-url> ~/drone_project
+cd ~/drone_project
+</pre>
+* If starting fresh:
+<pre>
+mkdir ~/drone_project
+cd ~/drone_project
+git init
+echo "logs/*" > .gitignore
+echo "*.pyc" >> .gitignore
+echo "__pycache__/" >> .gitignore
+</pre>
+
+=== Step 3: Set Up the Raspberry Pi ===
+# '''Sync the Project''': Copy files to the Pi:
+<pre>
+rsync -avz ~/drone_project pi@raspberrypi.local:~/ --exclude logs
+</pre>
+# '''Run the Install Script''': SSH into the Pi:
+<pre>
+ssh pi@raspberrypi.local
+</pre>
+Run:
+<pre>
+cd ~/drone_project
+./scripts/install_pi.sh
+</pre>
+This installs Python, <code>pymavlink</code>, <code>pyyaml</code>, <code>git</code>, <code>raspi-config</code>, enables SSH, and creates project directories.
+
+=== Step 4: Set Up the Simulator on the MacBook ===
+# '''Run the Simulator Install Script''': In your project directory:
+<pre>
+cd ~/drone_project
+./scripts/install_simulator.sh
+</pre>
+This installs Homebrew, Python, <code>pymavlink</code>, and ArduPilot SITL, then builds the simulator.
+# '''Test the Simulator''': Start a quadcopter:
+<pre>
+cd ~/ardupilot/ArduCopter
+sim_vehicle.py -v ArduCopter --model quad --console --map --out tcp:0.0.0.0:5760
+</pre>
+If Gazebo fails (macOS graphics issue), use <code>--no-gazebo</code> or Docker:
+<pre>
+docker run -it --rm -p 5760:5760 ardupilot/ardupilot-sitl sim_vehicle.py -v ArduCopter --model quad --console --map --out tcp:0.0.0.0:5760
+</pre>
+
+=== Step 5: Test the Project ===
+# '''Update Configuration''': In Cursor, edit <code>config/settings.yaml</code>:
+<pre>
+primary_drone:
+  connection: "tcp:<MACBOOK_IP>:5760"
+secondary_drones:
+  - ip: "<MACBOOK_IP>"
+    port: 5762
+  - ip: "<MACBOOK_IP>"
+    port: 5764
+</pre>
+Replace <code><MACBOOK_IP></code> with your MacBook’s IP (run <code>ifconfig</code> and check <code>en0</code> or <code>en1</code>).
+# '''Run Primary Drone Control''': Start the simulator (Step 4). On the Pi:
+<pre>
+cd ~/drone_project
+python3 src/primary_drone.py
+</pre>
+This arms and commands takeoff.
+# '''Test RF Simulation''': Start a second simulator:
+<pre>
+cd ~/ardupilot/ArduCopter
+sim_vehicle.py -v ArduCopter --model quad --instance 1 --out tcp:0.0.0.0:5762
+</pre>
+On the Pi:
+<pre>
+python3 src/rf_controller.py
+</pre>
+
+== Project Structure ==
+
+* '''src/''': Python modules for control logic
+** <code>__init__.py</code>
+** <code>primary_drone.py</code>: Controls the primary drone via MAVLink
+** <code>rf_controller.py</code>: Simulates RF control for secondary drones
+** <code>swarm_coordinator.py</code>: Coordinates primary and secondary drones (TBD)
+* '''scripts/''': Bash scripts for setup and running
+** <code>install_pi.sh</code>: Installs dependencies on the Raspberry Pi
+** <code>install_simulator.sh</code>: Installs ArduPilot SITL on the MacBook
+** <code>run_sim.sh</code>: Launches simulator and control scripts
+* '''config/''': Configuration files
+** <code>settings.yaml</code>: IPs and ports for drones
+* '''logs/''': Telemetry and debug logs
+* '''.gitignore''': Excludes logs, pycache, etc.
+* '''README.mediawiki''': This file
+
+== Contributing ==
+
+We welcome contributions from beginners and experienced coders! Here's how to get involved:
+
+* '''Explore the Code''': Open <code>src/primary_drone.py</code> in Cursor to see MAVLink communication. Check <code>src/rf_controller.py</code> for RF simulation.
+* '''Add Features''': Add telemetry logging (e.g., GPS to <code>logs/telemetry.csv</code>). Implement <code>swarm_coordinator.py</code> for swarm behavior. Suggest ideas like a web interface or computer vision.
+* '''Use Cursor and Claude''': Edit in Cursor on your MacBook. Use Cursor’s AI or Claude to ask: “How do I add error handling?” or “Generate a waypoint function.” Sync changes:
+<pre>
+rsync -avz ~/drone_project pi@raspberrypi.local:~/ --exclude logs
+</pre>
+* '''Submit Changes''': Commit:
+<pre>
+git add .
+git commit -m "Describe your changes"
+git push
+</pre>
+Create a pull request on GitHub.
+
+== Troubleshooting ==
+
+* '''Simulator Won’t Start''':
+** Check Python dependencies: <code>pip3 show pymavlink empy pexpect future</code>.
+** If Gazebo fails, use <code>--no-gazebo</code> or Docker (see Step 4).
+* '''Pi Connection Issues''':
+** Verify Pi’s IP and SSH: <code>sudo systemctl status ssh</code>.
+** Ensure MacBook and Pi are on the same network.
+* '''Code Errors''':
+** Use Cursor’s debugging tools or Claude to review code.
+** Check <code>logs/</code> for telemetry or errors.
+
+== Resources ==
+
+* [https://www.raspberrypi.com/documentation/computers/getting-started.html Raspberry Pi Setup]
+* [https://ardupilot.org/dev/docs/sitl-simulator-software-in-the-loop.html ArduPilot SITL]
+* [https://ardupilot.org/dev/docs/mavlink-commands.html MAVLink Guide]
+* [https://cursor.sh Cursor]
+* [https://ardupilot.org/dev/docs/building-setup-mac.html macOS ArduPilot Setup]
+* [https://www.python.org/about/gettingstarted/ Learn Python]
+* [https://ardupilot.org/copter/ Drone Basics]
+
+== Next Steps ==
+
+* '''Simulation''': Add commands to <code>primary_drone.py</code> (e.g., waypoints, landing).
+* '''Swarm Logic''': Develop <code>swarm_coordinator.py</code> for multi-drone control.
+* '''Hardware''': Transition to a flight controller (e.g., Pixhawk) and RF modules (e.g., NRF24L01).
+
+Happy vibecoding! If you need help, ask in the repository’s issues or reach out to the maintainers. Let’s build awesome drones together! 🚁
