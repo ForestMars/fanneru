@@ -29,7 +29,7 @@ This guide is designed for beginners and new contributors to jump in and
 start contributing, even if you\'re new to drones or the languages used. 
 (mainly Python)
 
-## Project Overview {#project_overview}
+## Project Overview 
 
 -   **Goal**: Develop software for a Raspberry Pi to control a primary
     drone (via MAVLink) and have that drone command secondary drones
@@ -256,7 +256,7 @@ how to get involved:
 -   [Learn Python](https://www.python.org/about/gettingstarted/)
 -   [Drone Basics](https://ardupilot.org/copter/)
 
-## Next Steps {#next_steps}
+## Next Steps
 
 -   **Simulation**: Add commands to `primary_drone.py` (e.g., waypoints,
     landing).
