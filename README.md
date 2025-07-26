@@ -280,4 +280,4 @@ how to get involved:
 If you need help, ask here in the issue queue or
 reach out to the maintainers.
 
-
+https://gundam.fandom.com/wiki/Mobile_Suit_Gundam:_Char%27s_Counterattack
