@@ -166,8 +166,6 @@ If Gazebo fails (macOS graphics issue), use `--no-gazebo` or Docker:
 
 1.  **Update Configuration**: In Cursor, edit `config/settings.yaml`:
 
-```{=html}
-<!-- -->
 ```
     primary_drone:
       connection: "tcp:<MACBOOK_IP>:5760"
@@ -176,32 +174,34 @@ If Gazebo fails (macOS graphics issue), use `--no-gazebo` or Docker:
         port: 5762
       - ip: "<MACBOOK_IP>"
         port: 5764
+```
 
-Replace `<MACBOOK_IP>`{=html} with your MacBook's IP (run `ifconfig` and
+Replace `<MACBOOK_IP>` with your MacBook's IP (run `ifconfig` and
 check `en0` or `en1`).
 
 1.  **Run Primary Drone Control**: Start the simulator (Step 4). On the
     Pi:
 
-```{=html}
-<!-- -->
 ```
     cd ~/drone_project
     python3 src/primary_drone.py
+```
 
 This arms and commands takeoff.
 
 1.  **Test RF Simulation**: Start a second simulator:
 
-```{=html}
-<!-- -->
+
 ```
     cd ~/ardupilot/ArduCopter
     sim_vehicle.py -v ArduCopter --model quad --instance 1 --out tcp:0.0.0.0:5762
+```
 
 On the Pi:
 
+```
     python3 src/rf_controller.py
+```
 
 ## Project Structure {#project_structure}
 
@@ -236,21 +236,10 @@ how to get involved:
     Cursor's AI or Claude to ask: "How do I add error handling?" or
     "Generate a waypoint function." Sync changes:
 
-```{=html}
-<!-- -->
+
 ```
     rsync -avz ~/drone_project pi@raspberrypi.local:~/ --exclude logs
-
--   **Submit Changes**: Commit:
-
-```{=html}
-<!-- -->
-```
-    git add .
-    git commit -m "Describe your changes"
-    git push
-
-Create a pull request on GitHub.
+``` 
 
 ## Troubleshooting
 
@@ -288,5 +277,7 @@ Create a pull request on GitHub.
 -   **Hardware**: Transition to a flight controller (e.g., Pixhawk) and
     RF modules (e.g., NRF24L01).
 
-Happy vibecoding! If you need help, ask in the repository's issues or
-reach out to the maintainers. Let's build awesome drones together! 🚁
+If you need help, ask here in the issue queue or
+reach out to the maintainers.
+
+
