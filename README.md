@@ -6,7 +6,7 @@ for piloting multiple drones using BCI (Brain Computer Interfaces.)
 
 # Background 
 
-n "Mobile Suit Gundam: Char's Counterattack," the Funnels are a key technology 
+In "Mobile Suit Gundam: Char's Counterattack," the Funnels are a key technology 
 used by the Nu Gundam, piloted by Amuro Ray. These Funnels are small, 
 remotely controlled drones that can attack enemies autonomously. 
 
