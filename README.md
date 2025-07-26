@@ -1,12 +1,33 @@
+# ファンネル
+## fan'neru (funnels) 
+
+Inspired by Gundam anime, ファンネル (funnels) is a drone control platform 
+for piloting multiple drones using BCI (Brain Computer Interfaces.) 
+
+# Background 
+
+n "Mobile Suit Gundam: Char's Counterattack," the Funnels are a key technology 
+used by the Nu Gundam, piloted by Amuro Ray. These Funnels are small, 
+remotely controlled drones that can attack enemies autonomously. 
+
+They're equipped with beam cannons and are launched from the Nu Gundam's back.
+
+The Funnels' psycoframe technology also allows Amuro to sense and react to 
+threats more effectively, making them a game-changer in the fight against 
+Char Aznable's forces.
+
+
 # Drone Control Project {#drone_control_project}
 
-Welcome to the **Drone Control Project**! This project builds a system
-where a Raspberry Pi controls a primary drone via a wired connection
-(simulated using TCP) and coordinates secondary drones over radio
-frequency (RF, simulated via TCP/UDP). We use a simulator (ArduPilot
-SITL) to test the control logic, so no physical drones are needed yet.
+This project builds a system where a Raspberry Pi controls a primary drone 
+via a wired connection (simulated using TCP) and coordinates secondary 
+drones over radio frequency (RF, simulated via TCP/UDP). We use a simulator 
+(ArduPilot SITL) to test the control logic, so no physical drones are needed
+(yet) for this *pilot* version. 
+
 This guide is designed for beginners and new contributors to jump in and
-start vibecoding, even if you\'re new to drones or coding!
+start contributing, even if you\'re new to drones or the languages used. 
+(mainly Python)
 
 ## Project Overview {#project_overview}
 
@@ -27,9 +48,6 @@ start vibecoding, even if you\'re new to drones or coding!
 -   **Languages**: Python for control logic, Bash for setup scripts.
 -   **Future Plans**: Transition to physical drones with a flight
     controller (e.g., Pixhawk) and RF modules (e.g., NRF24L01).
-
-We\'re excited to have you contribute, whether you\'re a beginner or
-pro! Let\'s build something cool together.
 
 ## Prerequisites
 
