@@ -43,8 +43,6 @@ start contributing, even if you\'re new to drones or the languages used.
         (Cursor).
     -   [Cursor](https://cursor.sh): Code editor for writing and
         debugging Python scripts.
-    -   Claude: Optional AI tool (via Anthropic API or platform) for
-        code suggestions.
 -   **Languages**: Python for control logic, Bash for setup scripts.
 -   **Future Plans**: Transition to physical drones with a flight
     controller (e.g., Pixhawk) and RF modules (e.g., NRF24L01).
@@ -68,7 +66,7 @@ start contributing, even if you\'re new to drones or the languages used.
 
 ## Getting Started {#getting_started}
 
-### Step 1: Verify and Prepare the Raspberry Pi {#step_1_verify_and_prepare_the_raspberry_pi}
+### Step 1: Verify and Prepare the Raspberry Pi 
 
 1.  **Confirm Raspberry Pi OS**: Ensure your Pi runs Raspberry Pi OS
     (Lite for performance or Desktop for a GUI). If not installed,
@@ -80,10 +78,9 @@ start contributing, even if you\'re new to drones or the languages used.
 3.  **Find the Pi's IP Address**: On the Pi (via monitor/keyboard or SSH
     if enabled):
 
-```{=html}
-<!-- -->
 ```
     hostname -I
+```
 
 Note the IP (e.g., 192.168.1.101) or use `raspberrypi.local` for SSH.
 SSH from your MacBook:
@@ -95,16 +92,13 @@ SSH from your MacBook:
 
 -   Clone the project to your MacBook:
 
-```{=html}
-<!-- -->
 ```
     git clone <repository-url> ~/drone_project
     cd ~/drone_project
+```
 
 -   If starting fresh:
 
-```{=html}
-<!-- -->
 ```
     mkdir ~/drone_project
     cd ~/drone_project
@@ -112,8 +106,9 @@ SSH from your MacBook:
     echo "logs/*" > .gitignore
     echo "*.pyc" >> .gitignore
     echo "__pycache__/" >> .gitignore
+```
 
-### Step 3: Set Up the Raspberry Pi {#step_3_set_up_the_raspberry_pi}
+### Step 3: Set Up the Raspberry Pi
 
 1.  **Sync the Project**: Copy files to the Pi:
 
@@ -137,26 +132,25 @@ Run:
 This installs Python, `pymavlink`, `pyyaml`, `git`, `raspi-config`,
 enables SSH, and creates project directories.
 
-### Step 4: Set Up the Simulator on the MacBook {#step_4_set_up_the_simulator_on_the_macbook}
+### Step 4: Set Up the Simulator on the MacBook
 
 1.  **Run the Simulator Install Script**: In your project directory:
 
-```{=html}
-<!-- -->
+
 ```
     cd ~/drone_project
     ./scripts/install_simulator.sh
+```
 
 This installs Homebrew, Python, `pymavlink`, and ArduPilot SITL, then
 builds the simulator.
 
 1.  **Test the Simulator**: Start a quadcopter:
 
-```{=html}
-<!-- -->
 ```
     cd ~/ardupilot/ArduCopter
     sim_vehicle.py -v ArduCopter --model quad --console --map --out tcp:0.0.0.0:5760
+```
 
 If Gazebo fails (macOS graphics issue), use `--no-gazebo` or Docker:
 
@@ -262,7 +256,6 @@ how to get involved:
     SITL](https://ardupilot.org/dev/docs/sitl-simulator-software-in-the-loop.html)
 -   [MAVLink
     Guide](https://ardupilot.org/dev/docs/mavlink-commands.html)
--   [Cursor](https://cursor.sh)
 -   [macOS ArduPilot
     Setup](https://ardupilot.org/dev/docs/building-setup-mac.html)
 -   [Learn Python](https://www.python.org/about/gettingstarted/)
