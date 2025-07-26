@@ -59,8 +59,6 @@ start contributing, even if you\'re new to drones or the languages used.
         install Raspberry Pi OS.
     -   [Cursor](https://cursor.sh): Code editor for your MacBook.
     -   [Homebrew](https://brew.sh): To manage dependencies on macOS.
-    -   Claude (optional): Access via Anthropic API or platform for code
-        assistance.
 -   **Network**: The Raspberry Pi and MacBook must be on the same
     network (Wi-Fi or Ethernet).
 
@@ -226,9 +224,7 @@ how to get involved:
 -   **Add Features**: Add telemetry logging (e.g., GPS to
     `logs/telemetry.csv`). Implement `swarm_coordinator.py` for swarm
     behavior. Suggest ideas like a web interface or computer vision.
--   **Use Cursor and Claude**: Edit in Cursor on your MacBook. Use
-    Cursor's AI or Claude to ask: "How do I add error handling?" or
-    "Generate a waypoint function." Sync changes:
+
 
 
 ```
@@ -245,7 +241,6 @@ how to get involved:
     -   Verify Pi's IP and SSH: `sudo systemctl status ssh`.
     -   Ensure MacBook and Pi are on the same network.
 -   **Code Errors**:
-    -   Use Cursor's debugging tools or Claude to review code.
     -   Check `logs/` for telemetry or errors.
 
 ## Resources
