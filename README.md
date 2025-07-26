@@ -62,7 +62,7 @@ start contributing, even if you\'re new to drones or the languages used.
 -   **Network**: The Raspberry Pi and MacBook must be on the same
     network (Wi-Fi or Ethernet).
 
-## Getting Started {#getting_started}
+## Getting Started
 
 ### Step 1: Verify and Prepare the Raspberry Pi 
 
